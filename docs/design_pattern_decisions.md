@@ -1,11 +1,11 @@
 # Design Pattern Decisions 
-This text describes design patterns used in the smart contracts and the reasoning behind them.  
+This text describes design patterns in the smart contracts and the reasoning for implementing them.   
 
 ## State Machine 
 An outer design of the SplitRevenue contract is a state machine, dividing allowed functions in two stages; Creation and Open. In the Creation stage, the owner can add an artist and fans to participate in the split of revenue. In the Open stage, payments can be made to the contract and artist and fans can withdraw their revenue split. This is to make sure the artist and fans can know in advance what percentage of the revenue they are allowed. A state machine also enables the use of a circuit breaker and mortality of the contract, but exclusively at different stages. 
 
 ## Withdrawal Pattern 
-A withdrawal pattern is implemented for the fans, where the accounting is done separate and before transfering. This is to prevent an attacker from trapping the contract into an unusable state. For example by sending from an address of a contract with a fallback function which fails, could be by using revert() or consuming too much gas when the execution context is passed. By keeping accounting and transferring separate only the attacker's withdrawal will fail and not the rest of the contract.
+A withdrawal pattern is implemented for the fans, where the accounting is done separate and before transfering. This is to prevent an attacker from trapping the contract into an unusable state. For example by sending from an address of a contract with a fallback function which fails, either by using revert() or consuming too much gas when the execution context is passed. By keeping accounting and transferring separate, only the attacker's withdrawal will fail and not the rest of the contract.
 
 ## Pull over Push Payments
 Letting a user withdraw their own funds decrease the cost compared to withdrawing for them by iterating over an array. Iterating over an array would open for external Denial of Service attacks as well as unintentional Denial of Service by the withdrawal function running out of gas if the array is long.

@@ -1,14 +1,13 @@
 # Avoiding Common Attacks 
-
+This text describes how common attacks are avoided in the contracts. 
 
 ## Reentrancy & Cross-function Race Conditions
-Setting balance to 0 before
-I deduct what has been withdraw.
+To avoid reentrancy the accounting is done before transfering funds. The artist's and fan's available balance is 0 after a withdraw. This way it is not possible to withdraw a second or more times unless new funds is added to the contract. Avoiding reentrancy is also done by using .transfer() instead of .call.value(). 
 
-accounting before transfer. 
 ## Integer Overflow & Underflow
-SafeMath
-## Denial of Service 
-iterating over array would be DoS!!!!! its about array
+OpenZeppelin's SafeMath library is used for the SplitRevenue contract, reverting functions instead of letting overflow and underflow occur.
 
-//transfering FOR the user would open risk for DoS attack and disable the withdraw function.  Only the address doing the DoS attack will be affected by the Denial of Service. thanks to the withdrawal pattern with one user withdraws for themselves, instead of the service iterating an array for all users.   
+## Denial of Service 
+For a group of fans to withdraw the simplest implementation in traditional development is storing them in an array and iterating to transfer for each fan. Iterating over an array exposes risk to Denial of Service attack, therefore instead a withdrawal pattern is implemented where each fan withdraw their own balance. 
+
+
