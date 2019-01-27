@@ -16,11 +16,11 @@ The streaming service is currently traditional streaming services, but a blockch
 
 ## Requirements
 * Truffle v5.0.0 - a development framework for Ethereum.
-* Solidity v0.5.0 (solc-js)
-* Node v10.14.1
-* Build essentials tools for your OS. 
-* dotenv NPM package
-* Metamask
+* Solidity v0.5.0 (solc-js).
+* Node v10.14.1.
+* Build essential tools for your OS. 
+* dotenv NPM package.
+* Metamask.
 
 ## Running the DApp
 1. Clone this repository
@@ -32,5 +32,5 @@ The streaming service is currently traditional streaming services, but a blockch
 7. Interact with the application at [http://localhost:3000](http://localhost:3000)
 
 ## Testing
-In the project root run `truffle test` and you should see 26 tests passing. 
+In the project root, after migrating on ganache-cli, run `truffle test` and you should see 26 tests passing. 
 
