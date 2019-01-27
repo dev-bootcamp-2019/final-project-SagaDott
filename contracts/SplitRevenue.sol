@@ -135,20 +135,20 @@ contract SplitRevenue is Ownable {
         emit EmergencyStated(stopped);
     }
  
-    /// @dev Allows an owner to self destruct contract.
-    /// @dev Access is restriced to stage Creation. 
+    /// @dev Allows an owner to self-destruct contract.
+    /// @dev Access is restricted to stage Creation. 
     function kill() 
         public 
         onlyOwner 
         atStage(Stages.Creation) 
     {
-        emit SelfDestruction("Contract Self Destructed"); 
+        emit SelfDestruction("Contract Self-Destructed"); 
         selfdestruct(msg.sender);
     }
 
     /// Private functions. 
 
-    /// @dev Transfer artist remaining ether split to artist address. 
+    /// @dev Transfer artist's remaining ether split to artist's address. 
     /// @dev Access is restricted to stage Open.  
     function artistWithdraw() 
         private 
@@ -161,7 +161,7 @@ contract SplitRevenue is Ownable {
         emit ArtistRevenueRelease(artistSplitWithdraw);
     }
     
-    /// @dev Transfer fan's remaining ether split to fan address. 
+    /// @dev Transfer fan's remaining ether split to fan's address. 
     /// @dev Access is restricted to stage Open. 
     function fanWithdraw() 
         private 

@@ -7,8 +7,18 @@ Testing a new way to fund music makers independently from record labels, keeping
 
 Will it illustrate the problem with current artist funding? Or will fans get rich from their split? Year 2019 will reveal. Our hypothesis is that the revenue left for the music makers from traditional streaming is very little and this experiment will let fans be a part of that experience. But can blockchain facilitate an alternative?
 
-## What does your project do?
 
-## How to set it up
+## Smart Contracts and Blockchain Structure of Value
+There is one main smart contract; SplitRevenue, and two library contracts; SafeMath and Ownable from OpenZeppelin. Owner can add the artist and fans from the concert to SplitRevenue. SplitRevenue receives ether from a streaming service and splits it between the artist and fans. The artist get 50 % and the fans share the other 50 % equally. Artist and fans can withdraw their ether split whenever they want from a React, Metamask and web3-enabled DApp frontend. Owner has administrator access to emergency functions in case contract functionality need to be stopped.  
+
+The streaming service is currently traditional streaming services, but a blockchain streaming service can in the future be the sender. A blockchain vision is to have streaming services handle only streaming, music makers own everything regarding their creations and have the ability to plugin for example a "crowdfunding" solution for songs like this SplitRevenue. A more modular, transparent and music maker empowering industry structure.   
+
+
+## Requirements
+* Truffle v5.0.0 - a development framework for Ethereum.
+* Solidity v0.5.0 (solc-js)
+* Node v10.14.1
+
+## Installation
 
 
