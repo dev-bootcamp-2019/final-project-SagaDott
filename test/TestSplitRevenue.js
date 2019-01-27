@@ -13,7 +13,7 @@ contract("SplitRevenue", accounts => {
 
  /// Testing that all functions work as intended and
  /// that access is restricted properly according to modifiers and require statements. 
- /// When creating a new contract instance,splitRevenureNew, it is to test it without 
+ /// When creating a new contract instance,splitRevenureNew, it is to test an instance without 
  /// disruption the rest of the test flow.  
 
   beforeEach( async () => {

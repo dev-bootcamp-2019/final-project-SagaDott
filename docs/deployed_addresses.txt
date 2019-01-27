@@ -1,1 +1,2 @@
-SplitPayment: 
+Network: Rinkeby
+SplitPayment: 0x25d24cA45EB8a774C5d14e21ED97a6338AcfFD33

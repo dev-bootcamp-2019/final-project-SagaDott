@@ -47,8 +47,8 @@ contract SplitRevenue is Ownable {
     /// @dev Contract constructor sets starting values of balances and number of fans to 0.    
     constructor() public {
         artistSplitBalance = 0;
-        fansCount = 0;
         fansSplitTotal = 0;
+        fansCount = 0;
     }
 
     /// @dev Allows anyone to deposit ether and split half for the artist and half equally between fans.
@@ -153,9 +153,9 @@ contract SplitRevenue is Ownable {
     function artistWithdraw() 
         private 
         atStage(Stages.Open) 
-    {
+    {   
+        require(artistSplitBalance != 0, "artist balance is 0");
         uint256 artistSplitWithdraw = artistSplitBalance;
-        require(artistSplitWithdraw != 0, "artist balance is 0");
         artistSplitBalance = 0; 
         artist.transfer(artistSplitWithdraw);
         emit ArtistRevenueRelease(artistSplitWithdraw);
