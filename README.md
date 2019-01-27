@@ -18,7 +18,16 @@ The streaming service is currently traditional streaming services, but a blockch
 * Truffle v5.0.0 - a development framework for Ethereum.
 * Solidity v0.5.0 (solc-js)
 * Node v10.14.1
+* Build essentials tools for your OS. 
+* dotenv NPM package
+* Metamask
 
 ## Installation
-
+1. Clone this repository
+2. Add a .evn file in the root directory with your Metamask mnemonic (and infura project-id if you want to deploy to Rinkeby test network).
+3. In the repo root directory, run `ganache-cli`
+4. Open a terminal tab in the same directory, run `truffle migrate --reset`
+5. `cd client` and run `npm install` 
+6. In the `client` directory, run `npm run start` 
+7. Interact with the application at [http://localhost:3000](http://localhost:3000)
 

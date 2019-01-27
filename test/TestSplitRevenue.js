@@ -77,6 +77,10 @@ contract("SplitRevenue", accounts => {
     assert.equal(res, 1, 'stage is not Open'); //Open stage equals to uint 1. 
   });
 
+  it('owner should not be able to change stage after stage Open', async () => {
+    catchRevert(splitRevenue.openSplit()); //Assert statement is in exceptions.js
+  });
+
   it('not owner should not be able to change state from Creation to Open', async () => {
     catchRevert(splitRevenue.openSplit({from: fan2})); //Assert statement is in exceptions.js
   });
@@ -113,7 +117,7 @@ contract("SplitRevenue", accounts => {
     catchRevert(splitRevenue.withdraw({from: artist})); //Assert statement is in exceptions.js
   });
 
-  it('fan should be able to withdraw the correct amount after a second payment and first withdrawal', async () => {
+  it('fan should be able to withdraw correctly after a second payment', async () => {
     splitRevenueNew = await SplitRevenue.new();
     await splitRevenueNew.addArtist(artist);
     await splitRevenueNew.addFan(fan1);
