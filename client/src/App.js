@@ -5,7 +5,20 @@ import getWeb3 from "./utils/getWeb3";
 import "./App.css";
 
 class App extends Component {
-  state = { storageBalance: 0, paymentAmount: 0, artistAddress: "", fanAddress: "", open: false, web3: null, accounts: null, contract: null }; //sätt storageBalance efter riktiga balances, hämta den!
+  state = { storageBalance: 0, 
+            paymentAmount: 0, 
+            revenue: 0,
+            artistAddress: "",
+            artistAddressContract: "", 
+            fanAddress: "", 
+            fanSubmitted: "",
+            open: "", 
+            emergencyMessage: "",
+            killed: "",
+            web3: null, 
+            accounts: null, 
+            contract: null 
+          }; //sätt storageBalance efter riktiga balances, hämta den!
   //when react state changes the app is rerendered. 
   componentDidMount = async () => {
     try {
@@ -97,6 +110,10 @@ class App extends Component {
     await contract.methods.addArtist(artistAddress).send({ from: accounts[0] });
     console.log(artistAddress);
 
+    let artistA = await contract.methods.artist().call({ from: accounts[0]});
+
+    this.setState({ artistAddressContract: artistA });
+
     //this.state.artistAddress = ""; // vill att input-fältet ska visa 0. ej state i appen. 
   };
 
@@ -107,6 +124,15 @@ class App extends Component {
 
     await contract.methods.addFan(fanAddress).send({ from: accounts[0] });
     console.log(fanAddress);
+
+    let fanNew = await contract.methods.fanExists(fanAddress).call({ from: accounts[0]});
+    if(fanNew) {
+      this.setState({fanSubmitted: fanAddress});
+    } else {
+      console.log('fan not submitted');
+    }
+    this.setState({fanAddress: ""});
+
   };
 
   handleOpen = async (event) => {
@@ -117,30 +143,52 @@ class App extends Component {
     await contract.methods.openSplit().send({ from: accounts[0] });
     this.setState({open: true});
     console.log(this.state.open);
+    let openContract = await contract.methods.stage().call({ from: accounts[0]});
+    if(openContract == 0) {
+      this.setState({open: "Creation"});
+    } else if(openContract == 1) {
+      this.setState({open: "Open"});
+    }
   };
 
 
 
   handleEmergency = async (event) => {
+    event.preventDefault ();
+    const {web3, accounts, contract, emergency } = this.state;
 
+    await contract.methods.emergency().send({ from: accounts[0] });
+    let stopped = await contract.methods.stopped().call({ from: accounts[0] });
+
+    if(!stopped) {
+      this.setState({emergencyMessage: "" });
+    } else if(stopped) {
+      this.setState({emergencyMessage: "active emergency"});
+
+    }
   }
 
-  handleKill = async (event) => {
+  handleKill = async (event) => { 
+    const {web3, accounts, contract, open } = this.state;
+    event.preventDefault ();
+    await contract.methods.kill().send({ from: accounts[0] });
+
 
   }
 
   handleSubmitPayment = async (event) => {
     event.preventDefault ();
 
-    const { web3, accounts, contract, paymentAmount } = this.state;
+    const { web3, accounts, contract, paymentAmount, revenue } = this.state;
     //const { storageBalance: newState } = this.state;
 
     const paymentAmountWei = await web3.utils.toWei(paymentAmount);
 
     //await web3.eth.sendTransaction({ from: accounts[0], to: contract._address, value: paymentAmountWei });
     await contract.methods.paySplit().send({ from: accounts[0], value: paymentAmountWei});
-    this.state.paymentAmount = 0;
-
+    this.setState({paymentAmount: 0}); //funkar inte? setState gäller. 
+    //let newRevenue = revenue + paymentAmount;
+    //this.setState({revenue: newRevenue });
     const response = parseInt(await web3.eth.getBalance(contract._address));
     //web3.utils.fromWei(response, 'ether');
     //response = await web3.utils.fromWei(response);
@@ -157,30 +205,8 @@ class App extends Component {
     console.log(balance);
     return balance.toString();
   }
-/** 
-  handleContractStateSubmit (event) {
-    event.preventDefault ();
 
-    const { set } = this.state.contract;
-    const { storageBalance: newState } = this.state; // ta bort senare när jag hämtar balances direkt från kontraktet. 
-
-    set (
-      newState,
-      {
-        gas: 300000,
-        from: accounts[0],
-        value: window.web3.toWei (0.01 + newState, 'ether')
-      }
-    )
-  }
-*/
-  /** handlePaymentClick = async (event) => { //change to input int 
-    const { accounts, contract } = this.state;
-    
-    await contract.methods.set(event).send({ from: accounts[0]}); // change to input int
-    const response = await contract.methods.get().call();
-    this.setState({ storageValue: response });
-  }
+  /** 
 
   handleWithdrawClick = async (event) => {
 
@@ -205,9 +231,9 @@ class App extends Component {
         <h2> Half Life - Splitting the streaming revenue of a song </h2>
         <p>A one year crypto experiment with music maker Imogen Heap</p>
         <div>The stored balance is: {this.state.storageBalance}</div>
-        <div>The artist address is: {}</div>
+        <div>The artist address is: {this.state.artistAddressContract}</div>
         <div></div>
-        <form onSubmit={this.handleSubmitArtist}>
+        <form onSubmit={ this.handleSubmitArtist }>
           <input 
           type="string"
           placeholder="Enter artist address..."
@@ -223,171 +249,30 @@ class App extends Component {
           value={this.state.fanAddress}
           onChange={ event => this.setState ({ fanAddress: event.target.value })}
           />
-          <button type="submit"> Add Fan </button>   
+          <button type="submit"> Add Fan </button>  
+          <div>Fan just submitted: {this.state.fanSubmitted}</div>
         </form>
         <button onClick={this.handleOpen.bind(this)}>Open Split</button>
+        <div>The contract is in stage: {this.state.open}</div>
         <form onSubmit={ this.handleSubmitPayment}>
           <input 
             type="number"
-            placeholder="Enter payment amount..."
+            placeholder="Enter payment amount in Ether..."
             value= { this.state.paymentAmount }
-            onChange= { event => this.setState ({ paymentAmount: event.target.value }) } />
-          <button type="submit"> Pay </button>
+            onChange= { event => this.setState ({ paymentAmount: event.target.value }) } 
+          />
+          <button type="submit"> Pay in Ether </button>
         </form>    
         <button onClick={this.handleClickWithdraw.bind(this)}>Withdraw ETH</button>
         <button onClick={this.handleEmergency.bind(this)}>Contract Emergency Stop</button>
+
         <button onClick={this.handleKill.bind(this)}>Delete Contract</button>
+        <div> Emergency: {this.state.emergencyMessage}</div>
 
-        <div> Contract Revenue: {this.state.accounts[0]} </div>
-        
-
-      </div>
-    );
-  }
-}
-/*
-<button onClick={this.handleClickPay.bind(this)}>Pay 3 ETH</button>*/
-
-/** <form onSubmit={ this.handleContractStateSubmit}>
-          <input 
-          type="number"
-          placeholder="Enter payment amount..."
-          value= { this.state.storageValue }
-          onChange= { event => this.setState ({ storageBalance: event.target.value }) } />
-          <button type="submit"> Submit </button>
-        </form>
-        */
-export default App;
-/** <div> Artist Split: {this.getArtistBalance()} </div>
-        <div> Fan Split: {this.state.accounts[0]} </div> */
-
-/**import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
-import getWeb3 from "./utils/getWeb3";
-
-import "./App.css";
-
-class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
-
-  componentDidMount = async () => {
-    try {
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
-        deployedNetwork && deployedNetwork.address,
-      );
-
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
-      );
-      console.error(error);
-    }
-  };
-
-  runExample = async () => {
-    const { accounts, contract } = this.state;
-
-    // Stores a given value, 0 by default.
-    await contract.methods.set(0).send({ from: accounts[0] });
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
-    // Update state with the result.
-    this.setState({ storageValue: response });
-  };
-
-  handleClick = async (event) => {
-    const { accounts, contract } = this.state;
-    //const contract = this.state.contract;
-    //const account = this.state.account;
-
-    var value = 3;
-
-    await contract.methods.set(value).send({ from: accounts[0]}); // why not transfer?
-    const response = await contract.methods.get().call();
-    this.setState({ storageValue: response });
-  };
-
-  handleContractStateSubmit (event) {
-    event.preventDefault ();
-
-    const { set } = this.state.contract;
-    const { storageValue: newState } = this.state; // ta bort senare när jag hämtar balances direkt från kontraktet. 
-
-    set (
-      newState,
-      {
-        gas: 300000,
-        from: accounts[0],
-        value: window.web3.toWei (0.01 + newState, 'ether')
-      }
-    )
-  }
-
-  /** handlePaymentClick = async (event) => { //change to input int 
-    const { accounts, contract } = this.state;
-    
-    await contract.methods.set(event).send({ from: accounts[0]}); // change to input int
-    const response = await contract.methods.get().call();
-    this.setState({ storageValue: response });
-  }
-
-  handleWithdrawClick = async (event) => {
-
-  }
-
-  handleSelfDestructClick = async (event) => {
-
-  }
-
-  // Later: handleAddArtist() handleAddFan()
-  */
-/*
-  render() {
-    if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>;
-    }
-    return (
-      <div className="App">
-        <h1>Good to Go!</h1>
-        <p>Your Truffle Box is installed and ready.</p>
-        <h2>Smart Contract Example</h2>
-        <p>
-          If your contracts compiled and migrated successfully, below will show
-          a stored value of 5 (by default).
-        </p>
-        <p>
-          Try changing the value stored on <strong>line 40</strong> of App.js.
-        </p>
-        <div>The stored balance is: {this.state.storageValue}</div>
-        <button onClick={this.handleClick.bind(this)}>Set Storage</button>
-        <form onSubmit={ this.handleContractStateSubmit}>
-          <input 
-          type="number"
-          placeholder="Enter payment amount..."
-          value= { this.state.storageValue }
-          onChange= { event => this.setState ({ storageValue: event.target.value }) } />
-          <button type="submit"> Submit </button>
-        </form>
+        <div> Contract Revenue:  </div>
       </div>
     );
   }
 }
 
 export default App;
- */
