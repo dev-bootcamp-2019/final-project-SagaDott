@@ -32,5 +32,5 @@ The streaming service is currently traditional streaming services, but a blockch
 7. Interact with the application at [http://localhost:3000](http://localhost:3000)
 
 ## Testing
-In the project root, after migrating on ganache-cli, run `truffle test` and you should see 26 tests passing. 
+In the project root, after migrating on ganache local blockchain, run `truffle test` and you should see 26 tests passing. 
 
