@@ -34,7 +34,7 @@ contract("SplitRevenue", accounts => {
     catchRevert(splitRevenue.addArtist(fan1)); //Assert statement is in exceptions.js
   });
 
-  // Deploying new instance to test a state moving forward without with the full instance. 
+  // Deploying new instance to test a state moving forward without disruptiong the full instance flow. 
   it('owner should not be able to add an artist in Open stage', async () => {
     splitRevenueNew = await SplitRevenue.new({ from: owner });
 
