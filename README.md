@@ -22,7 +22,7 @@ The streaming service is currently traditional streaming services, but a blockch
 * dotenv NPM package
 * Metamask
 
-## Installation
+## Running the DApp
 1. Clone this repository
 2. Add a .evn file in the root directory with your Metamask mnemonic (and infura project-id if you want to deploy to Rinkeby test network).
 3. In the repo root directory, run `ganache-cli`
@@ -30,4 +30,7 @@ The streaming service is currently traditional streaming services, but a blockch
 5. `cd client` and run `npm install` 
 6. In the `client` directory, run `npm run start` 
 7. Interact with the application at [http://localhost:3000](http://localhost:3000)
+
+## Testing
+In the project root run `truffle test` and you should see 26 tests passing. 
 
