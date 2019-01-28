@@ -51,3 +51,9 @@ emergency: pulic:    Open:     owner
 ## Testing
 In the project root, after migrating on ganache local blockchain, run `truffle test` and you should see 26 tests passing. 
 
+## Bonus Points
+A hello world html-website has been published with IPFS.
+
+Published to QmRXTfAPZ5KAzYmppWqL1oDnY3iViwzxJgG1erSucSNACJ: /ipfs/Qmb2YwvkZJjiKKXsGe2Mwd41ekiy1PdBRYfyCQH2r4ha5Y
+
+
