@@ -71,6 +71,7 @@ contract("SplitRevenue", accounts => {
     catchRevert(splitRevenue.addFan(fan1, {from: fan1})); //Assert statement is in exceptions.js
   });
 
+  // Testing changing stage in state machine design pattern
   it('owner should be able to change state from Creation to Open', async () => {  
     await splitRevenue.openSplit();
     let res = await splitRevenue.stage()
@@ -96,6 +97,7 @@ contract("SplitRevenue", accounts => {
     catchRevert(splitRevenueNew.paySplit({from: streamingService, value: expectedContractBalance})); 
   });  //Assert statement is in exceptions.js
 
+  // Testing withdraw design pattern
   it('fan should be able to withdraw', async () => {
     await splitRevenue.paySplit({from: streamingService, value: expectedContractBalance});
     let balance1 = await web3.eth.getBalance(fan1);
@@ -145,7 +147,8 @@ contract("SplitRevenue", accounts => {
   it('not fan and not artist should not be able to withdraw', async () => {
     catchRevert(splitRevenue.withdraw({from: streamingService})); //Assert statement is in exceptions.js
   });
-
+  
+  //Activates circuit breaker
   it('owner should be able to stop contract paying in emergency', async () => {
     await splitRevenue.emergency();
     catchRevert(splitRevenue.paySplit({from: streamingService, value: expectedContractBalance}));
@@ -155,6 +158,7 @@ contract("SplitRevenue", accounts => {
     catchRevert(splitRevenue.emergency({from: fan1})); //Assert statement is in exceptions.js
   });
 
+  // Deactivates circuit breaker
   it('owner should be able to resume contract paying in end of emergency', async () => {
     await splitRevenue.emergency();
     await splitRevenue.paySplit({from: streamingService, value: expectedContractBalance});
@@ -163,6 +167,7 @@ contract("SplitRevenue", accounts => {
     assert.equal(balance1, 6000000000000000000, 'Correct balance is not in the contract.');
   });
 
+  // Testing mortal design pattern
   it('owner should be able to kill contract in Creation stage', async () => {
     splitRevenueNew = await SplitRevenue.new();
 
