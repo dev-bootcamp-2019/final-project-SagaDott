@@ -34,10 +34,11 @@ emergency: pulic:    Open:     owner
 ## Requirements
 * Truffle v5.0.0 - a development framework for Ethereum.
 * Solidity v0.5.0 (solc-js).
-* Node v10.14.1.
+* Node v10.14.1
 * Build essential tools for your OS. 
-* dotenv NPM package.
-* Metamask.
+* dotenv NPM package
+* Metamask
+* truffle-hdwallet-provider
 
 ## Running the DApp
 1. Clone this repository
