@@ -1,10 +1,32 @@
-.App {
-  /*text-align: center;*/
 
-  padding-top: 330px;
-  padding-left: 60px;
+html, body {
+    margin: 0;
+    height: 100%;
+  }
+
+.App {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  height: 100%;
+
+  /*padding-top: 330px;*/
+  /*padding-left: 60px;*/
 }
 
+.App-info {
+  /*text-align: center;*/
+
+}
+
+.App-interaction .row{
+  
+  
+  display: inline-block;
+  /*flex-direction: row; 
+  align-items: center;
+  justify-content: center;*/
+}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
@@ -24,6 +46,22 @@
 .App-link {
   color: #61dafb;
 }
+
+
+.Access-O {
+  background-color: blue;
+  /*display: column;*/
+  /*float: left;*/
+}
+
+.Access-AF{
+  background-color: blueviolet;
+}
+
+.Access-S {
+  background-color: grey;
+}
+
 
 @keyframes App-logo-spin {
   from {

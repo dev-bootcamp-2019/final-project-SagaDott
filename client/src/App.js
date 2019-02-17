@@ -218,58 +218,79 @@ class App extends Component {
 
   // Later: handleAddArtist() handleAddFan()
   */
-
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
       <div className="App">
-        <div>Logged-in Account: {this.state.accounts[0]} </div>
-
-        <h1> Mycelia LIVEBITE </h1>
-        <h2> Half Life - Splitting the streaming revenue of a song </h2>
-        <p>A one year crypto experiment with music maker Imogen Heap</p>
-        <div>The stored balance is: {this.state.storageBalance}</div>
-        <div>The artist address is: {this.state.artistAddressContract}</div>
-        <div></div>
-        <form onSubmit={ this.handleSubmitArtist }>
-          <input 
-          type="string"
-          placeholder="Enter artist address..."
-          value={this.state.artistAddress}
-          onChange={ event => this.setState ({ artistAddress: event.target.value })}
-          />
-          <button type="submit"> Add Artist </button>   
-        </form>
-        <form onSubmit={this.handleSubmitFan}>
-          <input 
-          type="string"
-          placeholder="Enter fan address..."
-          value={this.state.fanAddress}
-          onChange={ event => this.setState ({ fanAddress: event.target.value })}
-          />
-          <button type="submit"> Add Fan </button>  
+        <div className="App-info">
+          <div>Logged-in Account: {this.state.accounts[0]} </div>
+          <h1> Mycelia LIVEBITE </h1>
+          <h2> Half Life - Splitting the streaming revenue of a song </h2>
+          <p>A one year crypto experiment with music maker Imogen Heap</p>
+          <div>The stored balance is: {this.state.storageBalance}</div>
+          <div>The artist address is: {this.state.artistAddressContract}</div>
           <div>Fan just submitted: {this.state.fanSubmitted}</div>
-        </form>
-        <button onClick={this.handleOpen.bind(this)}>Open Split</button>
-        <div>The contract is in stage: {this.state.open}</div>
-        <form onSubmit={ this.handleSubmitPayment}>
-          <input 
-            type="number"
-            placeholder="Enter payment amount in Ether..."
-            value= { this.state.paymentAmount }
-            onChange= { event => this.setState ({ paymentAmount: event.target.value }) } 
-          />
-          <button type="submit"> Pay in Ether </button>
-        </form>    
-        <button onClick={this.handleClickWithdraw.bind(this)}>Withdraw ETH</button>
-        <button onClick={this.handleEmergency.bind(this)}>Contract Emergency Stop</button>
+          <div>The contract is in stage: {this.state.open}</div>
+          <div> Emergency: {this.state.emergencyMessage}</div>
+          <div> Contract Revenue:  </div>
+        </div>
+        <div className="App-interaction">
+          <div className="row">
+            <div className="Access-O"> Owner Access
+              <form onSubmit={ this.handleSubmitArtist }>
+                <input 
+                type="string"
+                placeholder="Enter artist address..."
+                value={this.state.artistAddress}
+                onChange={ event => this.setState ({ artistAddress: event.target.value })}
+                />
+                <button type="submit"> (1) Add Artist </button>   
+              </form>
+              <form onSubmit={this.handleSubmitFan}>
+                <input 
+                type="string"
+                placeholder="Enter fan address..."
+                value={this.state.fanAddress}
+                onChange={ event => this.setState ({ fanAddress: event.target.value })}
+                />
+                <button type="submit"> (1) Add Fan </button>  
+              </form>
+              <div>
+              <button onClick={this.handleKill.bind(this)}> (1) Delete Contract</button>
+              </div>
+              <div>
+              <button onClick={this.handleOpen.bind(this)}> (2) Open Split </button>
+              </div>
+              <div>
+              <button onClick={this.handleEmergency.bind(this)}> (3, 4) Contract Emergency Stop</button>
+              </div>
+              
+              </div>
 
-        <button onClick={this.handleKill.bind(this)}>Delete Contract</button>
-        <div> Emergency: {this.state.emergencyMessage}</div>
-
-        <div> Contract Revenue:  </div>
+            </div>
+          <div className="row"> 
+            <div className="Access-AF"> Artist and Fan Access
+              <div>
+                <button onClick={this.handleClickWithdraw.bind(this)}> (4) Withdraw ETH</button>
+              </div>  
+              </div>
+            </div>
+          <div className="row">
+            <div className="Access-S"> Streaming Service Access
+              <form onSubmit={ this.handleSubmitPayment}>
+                <input 
+                  type="number"
+                  placeholder="Enter payment amount in Ether..."
+                  value= { this.state.paymentAmount }
+                  onChange= { event => this.setState ({ paymentAmount: event.target.value }) } 
+                />
+                <button type="submit"> (3) Pay in Ether </button>
+              </form>  
+            </div>
+          </div> 
+        </div>     
       </div>
     );
   }
