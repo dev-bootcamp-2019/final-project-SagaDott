@@ -36,14 +36,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610183806100606000396000f3fe60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638da5cb5b146100515780638f32d59b146100a8575b600080fd5b34801561005d57600080fd5b506100666100d7565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100b457600080fd5b506100bd610100565b604051808215151515815260200191505060405180910390f35b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161490509056fea165627a7a72305820b59c168a65b9c61d0b15d63dd1dee1c3b5bf62c484aca71eab6c16c78f744d120029",
-  "deployedBytecode": "0x60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638da5cb5b146100515780638f32d59b146100a8575b600080fd5b34801561005d57600080fd5b506100666100d7565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100b457600080fd5b506100bd610100565b604051808215151515815260200191505060405180910390f35b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161490509056fea165627a7a72305820b59c168a65b9c61d0b15d63dd1dee1c3b5bf62c484aca71eab6c16c78f744d120029",
+  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610183806100606000396000f3fe60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638da5cb5b146100515780638f32d59b146100a8575b600080fd5b34801561005d57600080fd5b506100666100d7565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100b457600080fd5b506100bd610100565b604051808215151515815260200191505060405180910390f35b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161490509056fea165627a7a72305820bcedc79d26d734a2558cd36194e3978e150d8374ee16242f8982c27d9e0717e40029",
+  "deployedBytecode": "0x60806040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680638da5cb5b146100515780638f32d59b146100a8575b600080fd5b34801561005d57600080fd5b506100666100d7565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b3480156100b457600080fd5b506100bd610100565b604051808215151515815260200191505060405180910390f35b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161490509056fea165627a7a72305820bcedc79d26d734a2558cd36194e3978e150d8374ee16242f8982c27d9e0717e40029",
   "sourceMap": "215:650:1:-;;;387:51;8:9:-1;5:2;;;30:1;27;20:12;5:2;387:51:1;423:10;414:6;;:19;;;;;;;;;;;;;;;;;;215:650;;;;;;",
   "deployedSourceMap": "215:650:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;493:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;493:70:1;;;;;;;;;;;;;;;;;;;;;;;;;;;780:83;;8:9:-1;5:2;;;30:1;27;20:12;5:2;780:83:1;;;;;;;;;;;;;;;;;;;;;;;;;;;493:70;530:7;552:6;;;;;;;;;;;545:13;;493:70;:::o;780:83::-;819:4;852:6;;;;;;;;;;;838:20;;:10;:20;;;831:27;;780:83;:::o",
   "source": "pragma solidity ^0.5.0;\n\n/**\n * @title Ownable\n * @dev The Ownable contract has an owner address, and provides basic authorization control\n * functions, this simplifies the implementation of \"user permissions\".\n */\ncontract Ownable {\n  address payable private _owner;\n\n  /**\n   * @dev The Ownable constructor sets the original `owner` of the contract to the sender\n   * account.\n   */\n  constructor() public {\n    _owner = msg.sender;\n  }\n\n  /**\n   * @return the address of the owner.\n   */\n  function owner() public view returns(address) {\n    return _owner;\n  }\n\n  /**\n   * @dev Throws if called by any account other than the owner.\n   */\n  modifier onlyOwner() {\n    require(isOwner());\n    _;\n  }\n\n  /**\n   * @return true if `msg.sender` is the owner of the contract.\n   */\n  function isOwner() public view returns(bool) {\n    return msg.sender == _owner;\n  }\n}\n",
-  "sourcePath": "/home/saga/Desktop/ConsenSys-Bootcamp/final-project-SagaDott/contracts/Ownable.sol",
+  "sourcePath": "/Users/malinarvidsson/Desktop/final-project-SagaDott/contracts/Ownable.sol",
   "ast": {
-    "absolutePath": "/home/saga/Desktop/ConsenSys-Bootcamp/final-project-SagaDott/contracts/Ownable.sol",
+    "absolutePath": "/Users/malinarvidsson/Desktop/final-project-SagaDott/contracts/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [
         98
@@ -140,7 +140,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 693,
+                        "referencedDeclaration": 705,
                         "src": "423:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -330,10 +330,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        696,
-                        697
+                        708,
+                        709
                       ],
-                      "referencedDeclaration": 696,
+                      "referencedDeclaration": 708,
                       "src": "670:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -404,7 +404,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 693,
+                        "referencedDeclaration": 705,
                         "src": "838:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -513,7 +513,7 @@
     "src": "0:866:1"
   },
   "legacyAST": {
-    "absolutePath": "/home/saga/Desktop/ConsenSys-Bootcamp/final-project-SagaDott/contracts/Ownable.sol",
+    "absolutePath": "/Users/malinarvidsson/Desktop/final-project-SagaDott/contracts/Ownable.sol",
     "exportedSymbols": {
       "Ownable": [
         98
@@ -610,7 +610,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 693,
+                        "referencedDeclaration": 705,
                         "src": "423:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -800,10 +800,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        696,
-                        697
+                        708,
+                        709
                       ],
-                      "referencedDeclaration": 696,
+                      "referencedDeclaration": 708,
                       "src": "670:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -874,7 +874,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 693,
+                        "referencedDeclaration": 705,
                         "src": "838:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -987,8 +987,8 @@
     "version": "0.5.0+commit.1d4f565a.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.0.0",
-  "updatedAt": "2019-01-25T20:41:12.982Z",
+  "schemaVersion": "3.0.1",
+  "updatedAt": "2019-02-27T11:23:21.044Z",
   "devdoc": {
     "details": "The Ownable contract has an owner address, and provides basic authorization control functions, this simplifies the implementation of \"user permissions\".",
     "methods": {

@@ -3,23 +3,27 @@ import SplitRevenueContract from "./contracts/SplitRevenue.json";
 import getWeb3 from "./utils/getWeb3";
 
 import "./App.css";
+import 'typeface-roboto';
+
+
 
 class App extends Component {
-  state = { storageBalance: 0, 
-            paymentAmount: 0, 
+  state = { storageBalance: "",
+            paymentAmount: "",
             revenue: 0,
             artistAddress: "",
-            artistAddressContract: "", 
-            fanAddress: "", 
+            artistAddressContract: "",
+            fanAddress: "",
             fanSubmitted: "",
-            open: "", 
+            open: "",
             emergencyMessage: "",
             killed: "",
-            web3: null, 
-            accounts: null, 
-            contract: null 
+            web3: null,
+            accounts: null,
+            contract: null,
+            owner: null
           }; //sätt storageBalance efter riktiga balances, hämta den!
-  //when react state changes the app is rerendered. 
+  //when react state changes the app is rerendered.
   componentDidMount = async () => {
     try {
       // Get network provider and web3 instance.
@@ -31,14 +35,16 @@ class App extends Component {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = SplitRevenueContract.networks[networkId];
-      const instance = new web3.eth.Contract( //returns object contract instance, not promise not await. 
+      const instance = new web3.eth.Contract( //returns object contract instance, not promise not await.
         SplitRevenueContract.abi,
         deployedNetwork && deployedNetwork.address, //check json build if matching network id.
       );
+      let contractOwner = await instance.methods.owner().call({ from: accounts[0] })
+
         //deployed() a part of truffle
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState({ web3, accounts, contract: instance, owner: contractOwner }, this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -69,7 +75,7 @@ class App extends Component {
    //console.log(contract);
    //console.log(contract._address);
    //console.log(this.state);
-   
+
     const response = parseInt(await web3.eth.getBalance(contract._address));
     //const response = 4;
     // Update state with the result.
@@ -114,7 +120,7 @@ class App extends Component {
 
     this.setState({ artistAddressContract: artistA });
 
-    //this.state.artistAddress = ""; // vill att input-fältet ska visa 0. ej state i appen. 
+    //this.state.artistAddress = ""; // vill att input-fältet ska visa 0. ej state i appen.
   };
 
   handleSubmitFan = async (event) => {
@@ -168,7 +174,7 @@ class App extends Component {
     }
   }
 
-  handleKill = async (event) => { 
+  handleKill = async (event) => {
     const {web3, accounts, contract, open } = this.state;
     event.preventDefault ();
     await contract.methods.kill().send({ from: accounts[0] });
@@ -186,7 +192,7 @@ class App extends Component {
 
     //await web3.eth.sendTransaction({ from: accounts[0], to: contract._address, value: paymentAmountWei });
     await contract.methods.paySplit().send({ from: accounts[0], value: paymentAmountWei});
-    this.setState({paymentAmount: 0}); //funkar inte? setState gäller. 
+    this.setState({paymentAmount: ""}); //funkar inte? setState gäller.
     //let newRevenue = revenue + paymentAmount;
     //this.setState({revenue: newRevenue });
     const response = parseInt(await web3.eth.getBalance(contract._address));
@@ -206,7 +212,47 @@ class App extends Component {
     return balance.toString();
   }
 
-  /** 
+  ownerView = () => {
+    const {accounts, owner} = this.state;
+    //console.log("ownerView!");
+    //console.log(owner);
+    //console.log(accounts[0]);
+
+    if(accounts[0] === owner) {
+      return (
+        <div className="Access-O"> Owner Access
+        <form onSubmit={ this.handleSubmitArtist }>
+          <input
+          type="string"
+          placeholder="Enter artist address..."
+          value={this.state.artistAddress}
+          onChange={ event => this.setState ({ artistAddress: event.target.value })}
+          />
+          <button type="submit"> (1) Add Artist </button>
+        </form>
+        <form onSubmit={this.handleSubmitFan}>
+          <input
+          type="string"
+          placeholder="Enter fan address..."
+          value={this.state.fanAddress}
+          onChange={ event => this.setState ({ fanAddress: event.target.value })}
+          />
+          <button type="submit"> (1) Add Fan </button>
+        </form>
+        <div>
+        <button onClick={this.handleKill.bind(this)}> (1) Delete Contract</button>
+        </div>
+        <div>
+        <button onClick={this.handleOpen.bind(this)}> (2) Open Split </button>
+        </div>
+        <div>
+        <button onClick={this.handleEmergency.bind(this)}> (3, 4) Contract Emergency Stop</button>
+        </div>
+        </div>
+      );
+    }
+  }
+  /**
 
   handleWithdrawClick = async (event) => {
 
@@ -223,74 +269,55 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <div className="App-info">
-          <div>Logged-in Account: {this.state.accounts[0]} </div>
-          <h1> Mycelia LIVEBITE </h1>
-          <h2> Half Life - Splitting the streaming revenue of a song </h2>
-          <p>A one year crypto experiment with music maker Imogen Heap</p>
-          <div>The stored balance is: {this.state.storageBalance}</div>
-          <div>The artist address is: {this.state.artistAddressContract}</div>
-          <div>Fan just submitted: {this.state.fanSubmitted}</div>
-          <div>The contract is in stage: {this.state.open}</div>
-          <div> Emergency: {this.state.emergencyMessage}</div>
-          <div> Contract Revenue:  </div>
+      <div>
+        <div className="App">
+        <div className="big-text">
+          <h1> Half Life </h1>
         </div>
-        <div className="App-interaction">
-          <div className="row">
-            <div className="Access-O"> Owner Access
-              <form onSubmit={ this.handleSubmitArtist }>
-                <input 
-                type="string"
-                placeholder="Enter artist address..."
-                value={this.state.artistAddress}
-                onChange={ event => this.setState ({ artistAddress: event.target.value })}
-                />
-                <button type="submit"> (1) Add Artist </button>   
-              </form>
-              <form onSubmit={this.handleSubmitFan}>
-                <input 
-                type="string"
-                placeholder="Enter fan address..."
-                value={this.state.fanAddress}
-                onChange={ event => this.setState ({ fanAddress: event.target.value })}
-                />
-                <button type="submit"> (1) Add Fan </button>  
-              </form>
-              <div>
-              <button onClick={this.handleKill.bind(this)}> (1) Delete Contract</button>
-              </div>
-              <div>
-              <button onClick={this.handleOpen.bind(this)}> (2) Open Split </button>
-              </div>
-              <div>
-              <button onClick={this.handleEmergency.bind(this)}> (3, 4) Contract Emergency Stop</button>
-              </div>
-              
-              </div>
-
+          <div className="App-info">
+            <div className="info-background">
+              <div>Logged-in Account: {this.state.accounts[0]} </div>
+              <h1>
+                <a href="http://myceliaformusic.org/">
+                <div className="Logo" />
+                </a>
+              </h1>
+              <h2> Half Life - Splitting the streaming revenue of a song </h2>
+              <p>A one year crypto experiment with music maker Imogen Heap</p>
+              <div>The stored balance is: {this.state.storageBalance}</div>
+              <div>The artist address is: {this.state.artistAddressContract}</div>
+              <div>Fan just submitted: {this.state.fanSubmitted}</div>
+              <div>The contract is in stage: {this.state.open}</div>
+              <div> Emergency: {this.state.emergencyMessage}</div>
+              <div> Contract Revenue:  </div>
             </div>
-          <div className="row"> 
-            <div className="Access-AF"> Artist and Fan Access
-              <div>
-                <button onClick={this.handleClickWithdraw.bind(this)}> (4) Withdraw ETH</button>
-              </div>  
+          </div>
+          <div className="App-interaction">
+            <div className="row">
+              {this.ownerView()}
+            </div>
+            <div className="row">
+              <div className="Access-AF"> Artist and Fan Access
+                <div>
+                  <button onClick={this.handleClickWithdraw.bind(this)}> (4) Withdraw ETH</button>
+                </div>
+                </div>
+              </div>
+            <div className="row">
+              <div className="Access-S"> Streaming Service Access
+                <form onSubmit={ this.handleSubmitPayment}>
+                  <input
+                    type="number"
+                    placeholder="Enter payment amount in Ether..."
+                    value= { this.state.paymentAmount }
+                    onChange= { event => this.setState ({ paymentAmount: event.target.value }) }
+                  />
+                  <button type="submit"> (3) Pay in Ether </button>
+                </form>
               </div>
             </div>
-          <div className="row">
-            <div className="Access-S"> Streaming Service Access
-              <form onSubmit={ this.handleSubmitPayment}>
-                <input 
-                  type="number"
-                  placeholder="Enter payment amount in Ether..."
-                  value= { this.state.paymentAmount }
-                  onChange= { event => this.setState ({ paymentAmount: event.target.value }) } 
-                />
-                <button type="submit"> (3) Pay in Ether </button>
-              </form>  
-            </div>
-          </div> 
-        </div>     
+          </div>
+        </div>
       </div>
     );
   }

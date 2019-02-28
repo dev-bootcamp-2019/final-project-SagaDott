@@ -6,9 +6,9 @@ html, body {
 
 .App {
   margin: auto;
-  width: 50%;
   padding: 10px;
-  height: 100%;
+  background-image: url(background.png);
+  padding-top: 50px;
 
   /*padding-top: 330px;*/
   /*padding-left: 60px;*/
@@ -16,20 +16,26 @@ html, body {
 
 .App-info {
   /*text-align: center;*/
+  margin: 0px;
+  padding: 0px;
 
 }
 
 .App-interaction .row{
-  
-  
+
+
   display: inline-block;
-  /*flex-direction: row; 
+  margin: 0px;
+  padding: 0px;
+  /*flex-direction: row;
   align-items: center;
   justify-content: center;*/
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
+  margin: 0px;
+  padding: 0px;
 }
 
 .App-header {
@@ -49,17 +55,86 @@ html, body {
 
 
 .Access-O {
-  background-color: blue;
+  /*background-color: blue;*/
   /*display: column;*/
   /*float: left;*/
+  margin: 0px;
+  padding: 0px;
 }
 
 .Access-AF{
-  background-color: blueviolet;
+  /*background-color: blueviolet;*/
+  margin: 5px;
+  margin-left: 49px;
 }
 
 .Access-S {
-  background-color: grey;
+  /*background-color: grey;*/
+  margin: 5px;
+}
+
+.info-background {
+  /*background-color: white;*/
+  margin-top: 43px;
+  margin-right: 100px;
+  padding: 50px;
+}
+
+button {
+  background: white ;
+  border-radius: 8px;
+  color: black;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  border-color: white;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-width: 5px;
+  font-family: 'Lato', sans-serif;
+
+}
+
+input {
+  padding: 10px;
+  border-color: white;
+  border-style: none;
+}
+
+.Logo {
+  background-image: url(./MyceliaLogo.png);
+}
+
+.big-text {
+  font-size: 100px;
+  margin-right: 100px;
+  margin-top: 0px;
+  padding-top: 0px;
+  margin: 0px !important;
+  color: #ffffff;
+  font-family: 'Lato', sans-serif;
+  height: 100px;
+  margin-block-start: 0px;
+  margin-block-end: 0px;
+  padding-left: 30px;
+  padding-bottom: 90px;
+
+}
+.big-text h1 {
+  margin-left: 10px;
+  padding-left: 100px;
+
+  margin: 0px;
+  padding: 0px;
+}
+
+.big-text h2 {
+  color: #1b1b1b;
+  padding-left: 200px;
+  padding-top: 40px;
+}
+.info-background h2 {
+  color: #cccccc;
 }
 
 
@@ -71,5 +146,3 @@ html, body {
     transform: rotate(360deg);
   }
 }
-
-
