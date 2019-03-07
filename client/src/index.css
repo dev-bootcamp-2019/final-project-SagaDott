@@ -35,14 +35,18 @@ main {
   color: #b9b9b9;
   margin: 0px;
   padding: 0px;
+  padding-left: 100px;
 }
 
 #third-page {
-  background-color: white;
   height: 100vh;
   color: #b9b9b9;
   margin: 0px;
   padding: 0px;
+  background-image: url(background.png);
+  background-color: black;
+
+
 }
 
 code {
