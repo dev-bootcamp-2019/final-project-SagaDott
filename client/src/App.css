@@ -66,6 +66,7 @@ html, body {
   /*background-color: blueviolet;*/
   margin: 5px;
   margin-left: 49px;
+  padding-right: 30px;
 }
 
 .Access-S {
@@ -86,8 +87,8 @@ button {
   color: black;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   border-color: white;
-  padding-top: 13px;
-  padding-bottom: 13px;
+  padding-top: 7px;
+  padding-bottom: 7px;
   padding-left: 10px;
   padding-right: 10px;
   border-width: 5px;
