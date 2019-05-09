@@ -72,7 +72,7 @@ class InteractiveView extends Component {
    //console.log(contract._address);
    //console.log(this.state);
 
-    const response = parseInt(await web3.eth.getBalance(contract._address));
+    const response = parseInt(await web3.eth.getBalance(contract.address));
     //const response = 4;
     // Update state with the result.
     this.setState({ storageBalance: response });

@@ -1,6 +1,6 @@
 const path = require("path");
 require("dotenv").config();
-const HDWallet = require('truffle-hdwallet-provider');
+// const HDWallet = require('truffle-hdwallet-provider');
 const infuraKey = process.env.INFURA_PROJECT_ID;
 const mnemonic = process.env.MNEMONIC;
 

@@ -5,8 +5,10 @@
   "dependencies": {
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1",
-    "web3": "^1.0.0-beta.37"
+    "react-scripts": "^3.0.1",
+    "truffle-hdwallet-provider": "^1.0.8",
+    "typeface-roboto": "0.0.54",
+    "web3": "^1.0.0-beta.55"
   },
   "scripts": {
     "start": "react-scripts start",
